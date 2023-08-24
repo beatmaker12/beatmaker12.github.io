@@ -1,9 +1,9 @@
 const drums = new Howl({
     "src": [
-      "/drims/drums.webm",
-      "drums/drums.mp3"
+      "./drums/drums.webm",
+      "./drums/drums.mp3"
     ],
-    "sprite": {
+   "sprite": {
       "clap": [
         0,
         734.2630385487529
@@ -30,12 +30,27 @@ const drums = new Howl({
       ]
     }
   });
-  const drumkit = document.querySelector('.drumkit')
 
-  drumkit.addEventListener('click', () => {
-    if (event.target.classList.contains('pad')){}
-        let soundToPlay = event.target.dataset
- } )
+  const drumkit = document.querySelector('.drumkit');
+  function playDrum(event) {
+    if (event.target.classList.contains('pad')) {
+      event.preventDefault();
+      let soundToPlay = event.target.dataset.sound;
+      drums.play(soundToPlay);
+    }
+  }
 
+  function setViewportHeight() {
+    let vh = window.innerHeight * 0.01;
+    console.log(vh);
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
 
+  
+  setViewportHeight();
+  window.addEventListener('resize', () => {
+    setTimeout(setViewportHeight, 100);
+  });
 
+  drumkit.addEventListener('click', playDrum);
+  drumkit.addEventListener('touchstart', playDrum);
